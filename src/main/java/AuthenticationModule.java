@@ -9,19 +9,14 @@ public class AuthenticationModule {
         this.userDAO = userDAO;
     }
 
-    public String AuthenticateUser(String username, String password)throws Exception{
+    public Boolean AuthenticateUser(String username, String password)throws Exception{
         User user = userDAO.findUserByUsername(username);
-
         String encryptedPassword = this.EncryptPassword(username, password);
 
-        if (encryptedPassword.equals( user.getEncryptedPassword())) {
-            if (user.getToken() == null) {
-                String compareToken = UUID.nameUUIDFromBytes(username.getBytes()).toString();
-                user.setToken(compareToken);
-            }
-            return user.getToken();
+        if (encryptedPassword.equals(user.getEncryptedPassword())) {
+            return true;
         }
-        throw new Exception("USERNAME OR PASS NOT FOUND");
+        return false;
     }
 
     public String EncryptPassword(String username, String password) throws NoSuchAlgorithmException{
@@ -31,7 +26,6 @@ public class AuthenticationModule {
         byte[] hash = digest.digest(input.getBytes());
 
         return bytesToStringHex(hash);
-        //return UUID.randomUUID().toString();
     }
 
     public final static char[] hexArray = "0123456789ABCDEF".toCharArray();
@@ -47,8 +41,7 @@ public class AuthenticationModule {
     }
 
     public void RegisterUser (String username, String password)throws NoSuchAlgorithmException{
-        String encryptedPassword = this.EncryptPassword(username, password);
-        this.userDAO.registerUser(new User(username, encryptedPassword));
+        this.userDAO.registerUser(new User(username, this.EncryptPassword(username, password)));
     }
 
 }
