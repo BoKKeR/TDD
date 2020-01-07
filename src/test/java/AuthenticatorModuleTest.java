@@ -10,50 +10,65 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class AuthenticatorModuleTest {
+    AuthenticationModule mockedAuthenticationModule;
     AuthenticationModule authenticationModule;
-    UserDAO userDAO ;
-    ArrayList<User> userList;
+    UserDAO mockedUserDAO ;
+
 
     @BeforeEach
     void setUp() throws Exception {
 
-        userDAO = mock(UserDAO.class);
-        //Arrays.asList(new User("aa","bbb"));
-        when(userDAO.registerUser(new User("user1", "encryptedPass")))
-                .thenReturn(new ArrayList<User>(Arrays.asList(new User("user1","encryptedPass"))));
-        when(userDAO.registerUser(new User("user2", "encryptedPass")))
-                .thenReturn(new ArrayList<User>(Arrays.asList(new User("user2","encryptedPass"))));
-        when(userDAO.findUserByUsername( "user1"))
-                .thenReturn((new User("user1","encryptedPass")));
+        mockedUserDAO = mock(UserDAO.class);
+        mockedAuthenticationModule = mock(AuthenticationModule.class);
 
-        //userDAO = new UserDAO(userList);
-        authenticationModule = mock(AuthenticationModule.class);
-        //authenticationModule = new AuthenticationModule(userDAO);
+        authenticationModule = new AuthenticationModule(mockedUserDAO);
 
-        doReturn("encryptedPass").when(authenticationModule.EncryptPassword("user1", "1234"));
-        authenticationModule.RegisterUser("user3", "1234");
+        // Registration mocks
+        when(mockedUserDAO.registerUser(new User("user1", "encryptedPass1")))
+                .thenReturn(new ArrayList<User>(Arrays.asList(new User("user1","encryptedPass1"))));
+        when(mockedUserDAO.registerUser(new User("user2", "encryptedPass2")))
+                .thenReturn(new ArrayList<User>(Arrays.asList(new User("user2","encryptedPass2"))));
 
+        // Encryption mock
+        when(mockedAuthenticationModule.EncryptPassword("user1", "encryptedPassword1")).thenReturn("encryptedPassword1");
+
+        // Find user by username mocks
+        when(mockedUserDAO.findUserByUsername( "user1"))
+                .thenReturn((new User("user1","encryptedPass1")));
+        when(mockedUserDAO.findUserByUsername( "user2"))
+                .thenReturn((new User("user2","encryptedPass2")));
+
+        //when(authenticationModule.AuthenticateUser("user1", "1234")).thenReturn(true);
+        //authenticationModule.RegisterUser("user3", "1234");
     }
 
     @Test
-    public void loginSuccess() throws Exception {
-        Boolean loginSuccessfulResponse = authenticationModule.AuthenticateUser("user1", "1234");
+    public void AuthenticateUser() throws  Exception {
+        Boolean loginSuccessfulResponse = authenticationModule.AuthenticateUser("user1", "plainTextPassword");
+
         assertEquals(true, loginSuccessfulResponse,
                 "Should return true as defined in test");
     }
 
+    @Test //Done
+    public void EncryptPassword() throws Exception  {
+        String encryptPassword = authenticationModule.EncryptPassword("user498", "awawrfwa");
+        assertEquals("41C13EE4949A38BB809E2D7635321732", encryptPassword,
+                "Should return the predefined password as defined in test, encryption method changed");
+    }
+
     @Test
-    public void testMock() throws Exception {
-        String loginSuccessfulResponse = authenticationModule.EncryptPassword("user2","encryptedPass");
-        assertEquals("encryptedPass", loginSuccessfulResponse,
-                "Should return true as defined in test");
+    public void RegisterUser() throws Exception {
+        authenticationModule.RegisterUser("user498", "awawrfwa");
+        assertEquals("41C13EE4949A38BB809E2D7635321732", "",
+                "Should return the predefined password as defined in test, encryption method changed");
     }
 
     @Test
     public void loginWrongPassword() {
 
         try {
-            Boolean loginSuccessful = authenticationModule.AuthenticateUser("user3", "something else");
+            Boolean loginSuccessful = mockedAuthenticationModule.AuthenticateUser("user3", "something else");
             assertEquals(loginSuccessful, false);
 
         } catch (Exception e) {
