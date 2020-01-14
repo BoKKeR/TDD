@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 public class AuthenticatorModuleTest {
@@ -69,7 +70,7 @@ public class AuthenticatorModuleTest {
 
         try {
             Boolean loginSuccessful = mockedAuthenticationModule.AuthenticateUser("user3", "something else");
-            assertEquals(loginSuccessful, false);
+            Assertions.fail("aaaa");
 
         } catch (Exception e) {
             String expectedMessage = "USERNAME OR PASS NOT FOUND";
