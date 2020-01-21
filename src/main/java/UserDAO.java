@@ -9,7 +9,6 @@ public class UserDAO {
         UserList = userList;
     }
 
-
     public  List<User> registerUser(User user) {
          this.UserList.add(user);
          return this.UserList;
