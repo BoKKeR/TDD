@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,11 +35,12 @@ class UserDAOTest {
         assertEquals(testUser1.getUsername(), testUser1.getUsername());
     }
 
-
     @Test
     public void deleteUserSuccess() {
         userDAO.deleteUser(testUser1);
         assertThrows(Exception.class, ()->userDAO.findUserByUsername("user1"));
     }
+
+
 }
 

@@ -3,19 +3,21 @@ import java.security.NoSuchAlgorithmException;
 
 public class AuthenticationModule {
     UserDAO userDAO;
+    TokenDAO tokenDAO;
 
-    public AuthenticationModule(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public AuthenticationModule(UserDAO userDAO, TokenDAO tokenDAO) {
+        this.userDAO = userDAO; this.tokenDAO = tokenDAO;
     }
 
-    public Boolean AuthenticateUser(String username, String password)throws Exception{
+    public String AuthenticateUser(String username, String password)throws Exception{
         User user = userDAO.findUserByUsername(username);
         String encryptedPassword = this.EncryptPassword(username, password);
 
         if (encryptedPassword.equals(user.getEncryptedPassword())) {
-            return true;
+            String token = tokenDAO.getTokenByUsername(username);
+            return token;
         }
-        return false;
+        throw new Exception("WRONG TOKEN");
     }
 
     public String EncryptPassword(String username, String password) throws NoSuchAlgorithmException{

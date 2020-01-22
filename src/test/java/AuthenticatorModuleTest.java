@@ -11,15 +11,16 @@ import static org.mockito.Mockito.*;
 public class AuthenticatorModuleTest {
     AuthenticationModule mockedAuthenticationModule;
     AuthenticationModule authenticationModule;
-    UserDAO mockedUserDAO ;
+    UserDAO mockedUserDAO;
+    TokenDAO mockedTokenDAO;
 
 
     @BeforeEach
     void setUp() throws Exception {
 
         mockedUserDAO = mock(UserDAO.class);
-
-        authenticationModule = new AuthenticationModule(mockedUserDAO);
+        mockedTokenDAO = mock(TokenDAO.class);
+        authenticationModule = new AuthenticationModule(mockedUserDAO, mockedTokenDAO);
 
         User testUser1 = new User("user1", "B4141716BACF8AEC19069EB1CCBACB13");
         User testUser2 = new User("user2", "encryptedPass1");
