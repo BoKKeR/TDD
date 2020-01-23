@@ -10,18 +10,20 @@ public class TokenDAO {
         TokenList = tokenList;
     }
 
-    public List<Token> addToken(String username) throws NoSuchAlgorithmException {
+    public String addToken(String username) throws NoSuchAlgorithmException {
         Token token = new Token(username);
         this.TokenList.add(token);
-        return this.TokenList;
+        return token.getToken();
     }
 
     public String getTokenByUsername(String username) throws Exception {
+
         for (Token token: TokenList) {
             if (token.getUsername().equals(username)) {
                 return token.getToken();
             }
+
         }
-        return null;
+        return addToken(username);
     }
 }

@@ -17,7 +17,8 @@ public class AuthenticationModule {
             String token = tokenDAO.getTokenByUsername(username);
             return token;
         }
-        throw new Exception("WRONG TOKEN");
+
+        throw new Exception("UNAUTHORIZED");
     }
 
     public String EncryptPassword(String username, String password) throws NoSuchAlgorithmException{

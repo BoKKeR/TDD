@@ -41,14 +41,18 @@ public class AuthenticatorModuleTest {
                 .thenReturn(testUser2);
         when(mockedUserDAO.findUserByUsername( "user3"))
                 .thenReturn(testUser3);
+
+        // Mocking token generation and return
+        when(mockedTokenDAO.getTokenByUsername("user1"))
+                .thenReturn("B4141716BACF8AEC19069EB1CCBACB13");
     }
 
     @Test
     public void AuthenticateUser() throws  Exception {
         String loginToken = authenticationModule.AuthenticateUser("user1", "encryptedPass1");
 
-        assertEquals("aaa", loginToken,
-                "Should return true as defined in test");
+        assertEquals("B4141716BACF8AEC19069EB1CCBACB13", loginToken,
+                "Should pass the token value");
     }
 
     @Test
