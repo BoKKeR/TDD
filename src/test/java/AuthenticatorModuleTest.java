@@ -45,9 +45,9 @@ public class AuthenticatorModuleTest {
 
     @Test
     public void AuthenticateUser() throws  Exception {
-        Boolean loginSuccessfulResponse = authenticationModule.AuthenticateUser("user1", "encryptedPass1");
+        String loginToken = authenticationModule.AuthenticateUser("user1", "encryptedPass1");
 
-        assertEquals(true, loginSuccessfulResponse,
+        assertEquals("aaa", loginToken,
                 "Should return true as defined in test");
     }
 

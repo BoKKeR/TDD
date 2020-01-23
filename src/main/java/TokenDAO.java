@@ -11,7 +11,7 @@ public class TokenDAO {
     }
 
     public List<Token> addToken(String username) throws NoSuchAlgorithmException {
-        Token token = new Token("username");
+        Token token = new Token(username);
         this.TokenList.add(token);
         return this.TokenList;
     }
@@ -24,5 +24,4 @@ public class TokenDAO {
         }
         return null;
     }
-
 }
