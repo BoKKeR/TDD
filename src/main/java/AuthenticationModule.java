@@ -21,6 +21,12 @@ public class AuthenticationModule {
         throw new Exception("UNAUTHORIZED");
     }
 
+    public Boolean AuthenticateResource(String token)throws Exception{
+        return true;
+
+        return false;
+    }
+
     public String EncryptPassword(String username, String password) throws NoSuchAlgorithmException{
         MessageDigest digest = MessageDigest.getInstance("MD5");
         digest.reset();

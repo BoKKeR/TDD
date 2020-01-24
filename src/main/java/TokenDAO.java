@@ -26,4 +26,14 @@ public class TokenDAO {
         }
         return addToken(username);
     }
+
+    public String authenticateToken(String requestToken) throws Exception {
+
+        for (Token token: TokenList) {
+            if (token.getToken().equals(requestToken)) {
+                return token.getToken();
+            }
+
+        }
+    }
 }
