@@ -14,7 +14,6 @@ public class AuthenticatorModuleTest {
     UserDAO mockedUserDAO;
     TokenDAO mockedTokenDAO;
 
-
     @BeforeEach
     void setUp() throws Exception {
 
@@ -45,6 +44,11 @@ public class AuthenticatorModuleTest {
         // Mocking token generation and return
         when(mockedTokenDAO.getTokenByUsername("user1"))
                 .thenReturn("B4141716BACF8AEC19069EB1CCBACB13");
+
+        // Mocking token verification
+        when(mockedTokenDAO.verifyToken("token"))
+                .thenReturn(true);
+
     }
 
     @Test
@@ -71,7 +75,12 @@ public class AuthenticatorModuleTest {
     }
 
     @Test
-    public void loginWrongPassword() {
+    public void LoginWrongPassword() {
         assertThrows(Exception.class, ()->mockedAuthenticationModule.AuthenticateUser("user1", "testMe"));
+    }
+
+    @Test
+    public void AuthenticateResource() throws Exception {
+        assertEquals(authenticationModule.AuthenticateResource("token"), true);
     }
 }

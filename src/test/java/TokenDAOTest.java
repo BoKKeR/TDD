@@ -25,8 +25,8 @@ public class TokenDAOTest {
         token4 = new Token("test4#");
         token5 = new Token("test5>");
 
-        tokenDAO = new TokenDAO(baseTokenList);
         baseTokenList = new ArrayList<>(Arrays.asList(token1, token2, token3, token4, token5));
+        tokenDAO = new TokenDAO(baseTokenList);
     }
 
     @Test
@@ -47,5 +47,13 @@ public class TokenDAOTest {
         assertEquals(token4.getUsername(), "test4#");
         assertEquals(token5.getUsername(), "test5>");
     }
+
+    @Test
+    public void addToken() throws Exception {
+        String token = tokenDAO.addToken("test5>");
+        assertEquals(tokenDAO.verifyToken(token), true);
+    }
+
+
 }
 

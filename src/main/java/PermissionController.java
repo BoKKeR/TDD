@@ -3,8 +3,14 @@ import java.util.Date;
 public class PermissionController {
     AuthenticationModule authenticationModule;
 
-    public String getDate() {
-        if ()
-        return new Date().toString();
+    public PermissionController(AuthenticationModule authenticationModule ) {
+        this.authenticationModule = authenticationModule;
+    }
+
+    public String getDate(String token) throws Exception {
+        if (authenticationModule.AuthenticateResource(token)) {
+            return new Date().toString();
+        }
+        return "UNAUTHORIZED";
     }
 }

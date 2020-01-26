@@ -22,9 +22,7 @@ public class AuthenticationModule {
     }
 
     public Boolean AuthenticateResource(String token)throws Exception{
-        return true;
-
-        return false;
+        return tokenDAO.verifyToken(token);
     }
 
     public String EncryptPassword(String username, String password) throws NoSuchAlgorithmException{

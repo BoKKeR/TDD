@@ -1,6 +1,5 @@
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TokenDAO {
 
@@ -27,13 +26,13 @@ public class TokenDAO {
         return addToken(username);
     }
 
-    public String authenticateToken(String requestToken) throws Exception {
+    public Boolean verifyToken(String requestToken) throws Exception {
 
         for (Token token: TokenList) {
             if (token.getToken().equals(requestToken)) {
-                return token.getToken();
+                return true;
             }
-
         }
+        return false;
     }
 }
