@@ -13,13 +13,14 @@ public class AuthenticatorModuleTest {
     AuthenticationModule authenticationModule;
     UserDAO mockedUserDAO;
     TokenDAO mockedTokenDAO;
+    PermissionDAO mockedPermissionDAO;
 
     @BeforeEach
     void setUp() throws Exception {
 
         mockedUserDAO = mock(UserDAO.class);
         mockedTokenDAO = mock(TokenDAO.class);
-        authenticationModule = new AuthenticationModule(mockedUserDAO, mockedTokenDAO);
+        authenticationModule = new AuthenticationModule(mockedUserDAO, mockedTokenDAO, mockedPermissionDAO);
 
         User testUser1 = new User("user1", "B4141716BACF8AEC19069EB1CCBACB13");
         User testUser2 = new User("user2", "encryptedPass1");

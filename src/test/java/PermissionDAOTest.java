@@ -10,7 +10,9 @@ public class PermissionDAOTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        basePermissionList = new ArrayList<>(Arrays.asList());
+        basePermissionList = new ArrayList<Permission>(Arrays.asList(
+                new Permission("test",true,true,true,"PANEL")
+        ));
         permissionDAO = new PermissionDAO(basePermissionList);
     }
 
@@ -24,7 +26,10 @@ public class PermissionDAOTest {
     }
 
     @Test
-    public void getPermissionByUsername() {
+    public void getPermissionByUsernameAndResource() throws Exception {
+        Permission perm = permissionDAO.getPermissionByUsernameAndResource("test");
+        System.out.println(perm.getResource());
+
 
     }
 

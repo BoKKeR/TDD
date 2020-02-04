@@ -4,9 +4,11 @@ import java.security.NoSuchAlgorithmException;
 public class AuthenticationModule {
     UserDAO userDAO;
     TokenDAO tokenDAO;
-
-    public AuthenticationModule(UserDAO userDAO, TokenDAO tokenDAO) {
-        this.userDAO = userDAO; this.tokenDAO = tokenDAO;
+    PermissionDAO permissionDAO;
+    public AuthenticationModule(UserDAO userDAO, TokenDAO tokenDAO,  PermissionDAO permissionDAO) {
+        this.userDAO = userDAO;
+        this.tokenDAO = tokenDAO;
+        this.permissionDAO =  permissionDAO;
     }
 
     public String AuthenticateUser(String username, String password)throws Exception{

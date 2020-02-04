@@ -1,11 +1,10 @@
 public class Permission {
     String Username;
     Boolean Read;
-
     Boolean Write;
-
     Boolean Execute;
     String Resource;
+
     public Permission(String username, Boolean read, Boolean write, Boolean execute, String resource) {
         Username = username;
         Read = read;

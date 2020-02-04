@@ -15,8 +15,7 @@ public class PermissionDAO {
         return permission;
     }
 
-    public Permission getPermissionByUsername(String username) throws Exception {
-
+    public Permission getPermissionByUsernameAndResource(String username) throws Exception {
         for (Permission permission: PermissionList) {
             if (permission.getUsername().equals(username)) {
                 return permission;
