@@ -1,5 +1,6 @@
 import java.util.Date;
 
+//wanabe endpoint
 public class PermissionController {
     AuthenticationModule authenticationModule;
 
@@ -7,9 +8,9 @@ public class PermissionController {
         this.authenticationModule = authenticationModule;
     }
 
-    public String getDate(String token) throws Exception {
-        if (authenticationModule.AuthenticateResource(token)) {
-            return new Date().toString();
+    public String getResourceFromToken(String token) throws Exception {
+        if (authenticationModule.Authenticate(token)) {
+            return authenticationModule.AuthenticateResource(token);
         }
         return "UNAUTHORIZED";
     }

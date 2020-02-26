@@ -26,7 +26,7 @@ public class TokenDAO {
         return addToken(username);
     }
 
-    public Boolean verifyToken(String requestToken) throws Exception {
+    public Boolean verifyToken(String requestToken) {
 
         for (Token token: TokenList) {
             if (token.getToken().equals(requestToken)) {
@@ -34,5 +34,15 @@ public class TokenDAO {
             }
         }
         return false;
+    }
+
+    public String verifyTokenReturnUsername(String requestToken) {
+
+        for (Token token: TokenList) {
+            if (token.getToken().equals(requestToken)) {
+                return token.getUsername();
+            }
+        }
+        return null;
     }
 }

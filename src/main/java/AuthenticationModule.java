@@ -5,13 +5,14 @@ public class AuthenticationModule {
     UserDAO userDAO;
     TokenDAO tokenDAO;
     PermissionDAO permissionDAO;
-    public AuthenticationModule(UserDAO userDAO, TokenDAO tokenDAO,  PermissionDAO permissionDAO) {
+
+    public AuthenticationModule(UserDAO userDAO, TokenDAO tokenDAO, PermissionDAO permissionDAO) {
         this.userDAO = userDAO;
         this.tokenDAO = tokenDAO;
-        this.permissionDAO =  permissionDAO;
+        this.permissionDAO = permissionDAO;
     }
 
-    public String AuthenticateUser(String username, String password)throws Exception{
+    public String AuthenticateUser(String username, String password) throws Exception {
         User user = userDAO.findUserByUsername(username);
         String encryptedPassword = this.EncryptPassword(username, password);
 
@@ -23,11 +24,22 @@ public class AuthenticationModule {
         throw new Exception("UNAUTHORIZED");
     }
 
-    public Boolean AuthenticateResource(String token)throws Exception{
-        return tokenDAO.verifyToken(token);
+    public String AuthenticateResource(String token) throws Exception {
+
+        if (tokenDAO.verifyToken(token)) {
+            return permissionDAO.getResourceByUsername(tokenDAO.verifyTokenReturnUsername(token));
+        }
+        return "not found";
     }
 
-    public String EncryptPassword(String username, String password) throws NoSuchAlgorithmException{
+    public Boolean Authenticate(String token) throws Exception {
+        if (tokenDAO.verifyToken(token)) {
+            return true;
+        }
+        return false;
+    }
+
+    public String EncryptPassword(String username, String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("MD5");
         digest.reset();
         String input = username + password;
@@ -48,7 +60,7 @@ public class AuthenticationModule {
         return new String(hexChars);
     }
 
-    public void RegisterUser (String username, String password)throws NoSuchAlgorithmException{
+    public void RegisterUser(String username, String password) throws NoSuchAlgorithmException {
         this.userDAO.registerUser(new User(username, this.EncryptPassword(username, password)));
     }
 

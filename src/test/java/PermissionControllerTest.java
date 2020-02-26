@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -16,12 +14,14 @@ public class PermissionControllerTest {
         mockedAuthenticationModule = mock(AuthenticationModule.class);
         permissionController = new PermissionController(mockedAuthenticationModule);
 
-        when(mockedAuthenticationModule.AuthenticateResource("token"))
+        when(mockedAuthenticationModule.Authenticate("token"))
                 .thenReturn(true);
+
+        when(mockedAuthenticationModule.AuthenticateResource("token")).thenReturn("resource");
     }
 
     @Test
-    public void getDateEndpointAccessibility() throws Exception {
-        assertEquals(permissionController.getDate("token"), new Date().toString());
+    public void getResourceFromToken() throws Exception {
+        assertEquals( "resource", permissionController.getResourceFromToken("token"));
     }
 }

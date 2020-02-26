@@ -25,7 +25,17 @@ public class PermissionDAO {
         return addPermission(username,true, false, false, "PANEL");
     }
 
-    public Boolean verifyPermission(String requestToken) throws Exception {
+    public String getResourceByUsername(String username) {
+        for (Permission permission: PermissionList) {
+            if (permission.getUsername().equals(username)) {
+                return permission.getResource();
+            }
+
+        }
+        return null;
+    }
+
+    public Boolean verifyPermission(String requestToken) {
 
         for (Permission permission: PermissionList) {
             if (permission.getUsername().equals(requestToken)) {

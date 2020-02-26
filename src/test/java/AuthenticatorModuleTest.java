@@ -3,7 +3,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -20,6 +21,7 @@ public class AuthenticatorModuleTest {
 
         mockedUserDAO = mock(UserDAO.class);
         mockedTokenDAO = mock(TokenDAO.class);
+        mockedPermissionDAO = mock(PermissionDAO.class);
         authenticationModule = new AuthenticationModule(mockedUserDAO, mockedTokenDAO, mockedPermissionDAO);
 
         User testUser1 = new User("user1", "B4141716BACF8AEC19069EB1CCBACB13");
@@ -50,6 +52,12 @@ public class AuthenticatorModuleTest {
         when(mockedTokenDAO.verifyToken("token"))
                 .thenReturn(true);
 
+        // Mocking getResourceByUsername
+        when(mockedPermissionDAO.getResourceByUsername("user1"))
+                .thenReturn("PANEL");
+
+        when(mockedTokenDAO.verifyTokenReturnUsername("token"))
+                .thenReturn("user1");
     }
 
     @Test
@@ -82,6 +90,20 @@ public class AuthenticatorModuleTest {
 
     @Test
     public void AuthenticateResource() throws Exception {
-        assertEquals(authenticationModule.AuthenticateResource("token"), true);
+        String resource = authenticationModule.AuthenticateResource("token");
+        assertEquals( "PANEL", resource);
     }
+
+    @Test
+    public void AuthenticateResourceFail() throws Exception {
+        String resource = authenticationModule.AuthenticateResource("test");
+        assertEquals( "not found", resource);
+    }
+
+    @Test
+    public void VerifyMockItterations()  {
+        verifyZeroInteractions(mockedUserDAO);
+    }
+
+
 }
